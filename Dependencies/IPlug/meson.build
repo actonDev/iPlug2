@@ -1,0 +1,2 @@
+subdir('RTAudio')
+subdir('RTMidi')

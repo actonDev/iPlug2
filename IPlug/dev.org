@@ -1,0 +1,41 @@
+#+BEGIN_SRC emacs-lisp
+(defun aod.meson/sources (ext)
+  (interactive "sExtension: ")
+  
+  (with-temp-buffer
+    (dired ".")
+    (dired-unmark-all-marks)
+    (dired-mark-files-regexp ext)
+    (dired-copy-filename-as-kill)
+    (quit-window)
+    )
+  (let* ((filenames (split-string (car kill-ring)))
+	 (formatted (mapconcat (function (lambda (x) (format "'%s'\n"x)))
+			       filenames
+			       " ")))
+    (insert formatted))
+  )
+#+END_SRC
+
+#+RESULTS:
+: aod\.meson/sources
+
+
+#+RESULTS:
+: meson-insert-sources
+
+#+BEGIN_SRC emacs-lisp
+(insert (mapconcat (function (lambda (x) (format "'%s'\n"x)))
+           temp
+           " "))
+#+END_SRC
+
+#+RESULTS:
+: 'IPlugAPIBase.h'
+:  'IPlugConstants.h'
+:  'IPlugMidi.h'
+:  'IPlugPlatform.h'
+:  'IPlugPluginBase.h'
+:  'IPlugProcessor.h'
+:  'IPlugTimer.h'
+:  'meson.build'
