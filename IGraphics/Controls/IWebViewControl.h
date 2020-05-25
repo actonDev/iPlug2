@@ -22,13 +22,18 @@
 BEGIN_IPLUG_NAMESPACE
 BEGIN_IGRAPHICS_NAMESPACE
 
+class IWebViewControl;
+
+using OnReadyFunc = std::function<void(IWebViewControl* pWebView)>;
+
 /** @ingroup IControls */
 class IWebViewControl : public IControl, public IWebView
 {
 public:
-  IWebViewControl(const IRECT& bounds, bool opaque = true)
+  IWebViewControl(const IRECT& bounds, bool opaque = true, OnReadyFunc func = nullptr)
   : IControl(bounds)
   , IWebView(opaque)
+  , mOnReadyFunc(func)
   {
   }
   
@@ -44,9 +49,8 @@ public:
 
   void OnWebViewReady() override
   {
-    WDL_String html{ "<meta name=\"viewport\" content=\"initial-scale=1.0\"/><p contentEditable=\"true\">Hello</p>" };
-    LoadHTML(html);
-//    LoadURL("https://google.com");
+    if(mOnReadyFunc)
+      mOnReadyFunc(this);
   }
 
   void OnRescale() override
@@ -58,6 +62,9 @@ public:
   {
     SetWebViewBounds(mRECT.L, mRECT.T, mRECT.W(), mRECT.H(), GetUI()->GetTotalScale());
   }
+  
+private:
+  OnReadyFunc mOnReadyFunc;
 };
 
 END_IGRAPHICS_NAMESPACE
