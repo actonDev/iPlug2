@@ -97,7 +97,8 @@ void* IWebView::OpenWebView(void* pParent, float x, float y, float w, float h, f
 
 #if defined OS_MAC
   if(!mOpaque)
-    [webView setValue:[NSNumber numberWithBool:YES]  forKey:@"drawsTransparentBackground"];
+    [webView setValue:@(NO) forKey:@"drawsBackground"];
+//    [webView setValue:[NSNumber numberWithBool:YES]  forKey:@"drawsTransparentBackground"]; // deprecated
   
   [webView setAllowsMagnification:NO];
 #endif
