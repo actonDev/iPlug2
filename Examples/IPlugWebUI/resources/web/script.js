@@ -28,6 +28,13 @@ function SSMFD(offset, size, msg) {
   console.log("Got Sysex Message");
 }
 
+function doSendMessage(message) {
+  if(typeof webkit !== 'undefined') // WkWebkitView
+    webkit.messageHandlers.callback.postMessage(message);
+  else // ICoreWebView2
+    window.chrome.webview.postMessage(message);
+}
+
 // FROM UI
 function SAMFUI(msgTag, ctrlTag = -1, dataSize = 0, data = 0) {
   var message = {
@@ -38,7 +45,7 @@ function SAMFUI(msgTag, ctrlTag = -1, dataSize = 0, data = 0) {
     "data": data
   };
   
-  webkit.messageHandlers.callback.postMessage(message);
+  doSendMessage(message);
 }
 
 function SMMFUI(statusByte, dataByte1, dataByte2) {
@@ -49,7 +56,7 @@ function SMMFUI(statusByte, dataByte1, dataByte2) {
     "dataByte2": dataByte2
   };
   
-  webkit.messageHandlers.callback.postMessage(message);
+  doSendMessage(message);
 }
 
 function SSMFUI(dataSize = 0, data = 0) {
@@ -59,7 +66,7 @@ function SSMFUI(dataSize = 0, data = 0) {
     "data": data
   };
   
-  webkit.messageHandlers.callback.postMessage(message);
+  doSendMessage(message);
 }
 
 function EPCFUI(paramIdx) {
@@ -68,7 +75,7 @@ function EPCFUI(paramIdx) {
     "paramIdx": paramIdx,
   };
   
-  webkit.messageHandlers.callback.postMessage(message);
+  doSendMessage(message);
 }
 
 function BPCFUI(paramIdx) {
@@ -77,7 +84,7 @@ function BPCFUI(paramIdx) {
     "paramIdx": paramIdx,
   };
   
-  webkit.messageHandlers.callback.postMessage(message);
+  doSendMessage(message);
 }
 
 function SPVFUI(paramIdx, value) {
@@ -87,5 +94,5 @@ function SPVFUI(paramIdx, value) {
     "value": value
   };
 
-  webkit.messageHandlers.callback.postMessage(message);
+  doSendMessage(message);
 }

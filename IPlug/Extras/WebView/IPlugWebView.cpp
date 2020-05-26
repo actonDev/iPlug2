@@ -10,6 +10,7 @@
 
 #include "IPlugWebView.h"
 #include "IPlugPaths.h"
+#include <string>
 
 using namespace iplug;
 using namespace Microsoft::WRL;
@@ -48,6 +49,30 @@ void* IWebView::OpenWebView(void* pParent, float x, float y, float w, float h, f
             Settings->put_AreDefaultScriptDialogsEnabled(TRUE);
             Settings->put_IsWebMessageEnabled(TRUE);
 
+            mWebViewWnd->add_WebMessageReceived(
+              Microsoft::WRL::Callback<ICoreWebView2WebMessageReceivedEventHandler>(
+                [this](ICoreWebView2* sender, ICoreWebView2WebMessageReceivedEventArgs* args)
+                {
+                  wil::unique_cotaskmem_string uri;
+                  args->get_Source(&uri);
+
+                  //if (uri.get())
+                  //{
+                  //  return S_OK;
+                  //}
+                  wil::unique_cotaskmem_string jsonString;
+                  args->get_WebMessageAsJson(&jsonString);
+                  std::wstring jsonWString = jsonString.get();
+
+                  WDL_String cStr;
+                  UTF16ToUTF8(cStr, jsonWString.c_str());
+
+                  OnMessageFromWebView(cStr.Get());
+
+                  return S_OK;
+                }).Get(), &mWebMessageReceivedToken);
+
+
             mWebViewCtrlr->put_Bounds({ (LONG) x, (LONG) y, (LONG) (x + w), (LONG) (y + h) });
 
             OnWebViewReady();
@@ -79,6 +104,7 @@ void IWebView::LoadHTML(const char* html)
 
 void IWebView::LoadURL(const char* url)
 {
+  //TODO: error check url?
   if (mWebViewWnd)
   {
     WCHAR urlWide[IPLUG_WIN_MAX_WIDE_PATH]; // TODO: error check/size
@@ -89,7 +115,14 @@ void IWebView::LoadURL(const char* url)
 
 void IWebView::LoadFile(const char* fileName, const char* bundleID)
 {
-
+  if (mWebViewWnd)
+  {
+    WDL_String fullStr;
+    fullStr.SetFormatted(MAX_WIN32_PATH_LEN, "file://%s", fileName);
+    WCHAR fileUrlWide[IPLUG_WIN_MAX_WIDE_PATH]; // TODO: error check/size
+    UTF8ToUTF16(fileUrlWide, fullStr.Get(), IPLUG_WIN_MAX_WIDE_PATH); // TODO: error check/size
+    mWebViewWnd->Navigate(fileUrlWide);
+  }
 }
 
 void IWebView::EvaluateJavaScript(const char* scriptStr, completionHandlerFunc func)
@@ -104,9 +137,11 @@ void IWebView::EvaluateJavaScript(const char* scriptStr, completionHandlerFunc f
 
   mWebViewWnd->ExecuteScript(scriptWide, Callback<ICoreWebView2ExecuteScriptCompletedHandler>(
     [func](HRESULT errorCode, LPCWSTR resultObjectAsJson) -> HRESULT {
-      WDL_String str;
-      UTF16ToUTF8(str, resultObjectAsJson);
-      func(str);
+      if (func && resultObjectAsJson) {
+        WDL_String str;
+        UTF16ToUTF8(str, resultObjectAsJson);
+        func(str.Get());
+      }
       return S_OK;
     }).Get());
 }

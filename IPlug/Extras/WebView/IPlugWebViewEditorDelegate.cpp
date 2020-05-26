@@ -27,8 +27,13 @@ WebViewEditorDelegate::~WebViewEditorDelegate()
   CloseWindow();
 }
 
+extern int GetScaleForHWND(HWND hWnd);
+
 void* WebViewEditorDelegate::OpenWindow(void* pParent)
 {
-  void* view = OpenWebView(pParent, 0, 0, 600, 600, 2.f);
-  return view;
+  RECT r;
+  HWND hWnd = (HWND) pParent;
+  GetClientRect(hWnd, &r);
+  int scale = GetScaleForHWND(hWnd);
+  return OpenWebView(pParent, r.left / scale, r.top / scale, (r.right - r.left) / scale, (r.bottom - r.top) / scale, scale);
 }

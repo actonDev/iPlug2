@@ -4,10 +4,10 @@
 IPlugWebUI::IPlugWebUI(const InstanceInfo& info)
 : Plugin(info, MakeConfig(kNumParams, kNumPrograms))
 {
-  GetParam(kGain)->InitGain("Gain");
+  GetParam(kGain)->InitGain("Gain", 0., -70, 0.);
   
   mEditorInitFunc = [&]() {
-    LoadURL("https://github.com/olilarkin");
+    //LoadURL("https://github.com/olilarkin");
     //To load over http:// the host app needs to have NSAppTransportSecurity set to allow it, in its info.plist.
     //https://developer.apple.com/documentation/bundleresources/information_property_list/nsapptransportsecurity?language=objc
     //This is impractical for audio plugins, but perhaps viable for standalone apps
@@ -15,11 +15,12 @@ IPlugWebUI::IPlugWebUI(const InstanceInfo& info)
     
     //Otherwise you can load web content into WKWebView via the filesystem, but beware, many modern toolkits like React require content to be served!
     //LoadFile("index.html", GetBundleID());
+    LoadFile("C:\\Users\\oli\\Dev\\iPlug2\\Examples\\IPlugWebUI\\resources\\web\\index.html", nullptr);
   };
   
   MakePreset("One", 0.);
-  MakePreset("Two", 10.);
-  MakePreset("Three", 100.);
+  MakePreset("Two", -30.);
+  MakePreset("Three", 40.);
 }
 
 void IPlugWebUI::ProcessBlock(sample** inputs, sample** outputs, int nFrames)
@@ -62,10 +63,10 @@ bool IPlugWebUI::OnMessage(int msgTag, int ctrlTag, int dataSize, const void* pD
 
 void IPlugWebUI::OnIdle()
 {
-  //SendControlValueFromDelegate(kCtrlTagMeter, mLastPeak);
+  SendControlValueFromDelegate(kCtrlTagMeter, mLastPeak);
 }
 
 void IPlugWebUI::OnParamChange(int paramIdx)
 {
-  //DBGMSG("gain %f\n", GetParam(paramIdx)->Value());
+  DBGMSG("gain %f\n", GetParam(paramIdx)->Value());
 }

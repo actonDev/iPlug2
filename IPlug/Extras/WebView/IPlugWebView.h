@@ -30,7 +30,7 @@
 
 BEGIN_IPLUG_NAMESPACE
 
-using completionHandlerFunc = std::function<void(const WDL_String& result)>;
+using completionHandlerFunc = std::function<void(const char* result)>;
 
 /** TODO */
 class IWebView
@@ -62,6 +62,7 @@ private:
 #elif defined OS_WIN
   wil::com_ptr<ICoreWebView2Controller> mWebViewCtrlr;
   wil::com_ptr<ICoreWebView2> mWebViewWnd;
+  EventRegistrationToken mWebMessageReceivedToken;
 #endif
 };
 
