@@ -107,6 +107,12 @@ public:
     SetWebViewBounds(0, 0, width, height);
     EditorResizeFromUI(width, height, true);
   }
+
+  void OnWebViewReady() override
+  {
+    if (mEditorInitFunc)
+      mEditorInitFunc();
+  }
   
 protected:
   std::function<void()> mEditorInitFunc = nullptr;

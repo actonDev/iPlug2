@@ -14,7 +14,7 @@
 using namespace iplug;
 using namespace Microsoft::WRL;
 
-IWebView::IWebView()
+IWebView::IWebView(bool opaque)
 {
 }
 
@@ -67,12 +67,12 @@ void IWebView::CloseWebView()
   mWebViewWnd = nullptr;
 }
 
-void IWebView::LoadHTML(const WDL_String& html)
+void IWebView::LoadHTML(const char* html)
 {
   if (mWebViewWnd)
   {
     WCHAR htmlWide[IPLUG_WIN_MAX_WIDE_PATH]; // TODO: error check/size
-    UTF8ToUTF16(htmlWide, html.Get(), IPLUG_WIN_MAX_WIDE_PATH); // TODO: error check/size
+    UTF8ToUTF16(htmlWide, html, IPLUG_WIN_MAX_WIDE_PATH); // TODO: error check/size
     mWebViewWnd->NavigateToString(htmlWide);
   }
 }
@@ -87,8 +87,16 @@ void IWebView::LoadURL(const char* url)
   }
 }
 
+void IWebView::LoadFile(const char* fileName, const char* bundleID)
+{
+
+}
+
 void IWebView::EvaluateJavaScript(const char* scriptStr, completionHandlerFunc func)
 {
+  if (!mWebViewWnd)
+    return;
+
   assert(mWebViewWnd);
 
   WCHAR scriptWide[IPLUG_WIN_MAX_WIDE_PATH]; // TODO: error check/size
