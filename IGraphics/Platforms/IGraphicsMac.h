@@ -32,7 +32,8 @@ public:
   void CloseWindow() override;
   bool WindowIsOpen() override;
   void PlatformResize(bool parentHasResized) override;
-  void AddPlatformView(const IRECT& r, void* pPlatformView) override;
+  void AttachPlatformView(const IRECT& r, void* pView) override;
+  void RemovePlatformView(void* pView) override;
 
   void HideMouseCursor(bool hide, bool lock) override;
   void MoveMouseCursor(float x, float y) override;

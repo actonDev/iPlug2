@@ -113,9 +113,14 @@ void* IGraphicsMac::OpenWindow(void* pParent)
   return mView;
 }
 
-void IGraphicsMac::AddPlatformView(const IRECT& r, void* pPlatformView)
+void IGraphicsMac::AttachPlatformView(const IRECT& r, void* pView)
 {
-  [(IGRAPHICS_VIEW*) mView addSubview:(NSView*) pPlatformView];
+  [(IGRAPHICS_VIEW*) mView addSubview:(NSView*) pView];
+}
+
+void IGraphicsMac::RemovePlatformView(void* pView)
+{
+  [(NSView*) pView removeFromSuperview];
 }
 
 void IGraphicsMac::CloseWindow()

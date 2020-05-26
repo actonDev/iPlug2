@@ -42,7 +42,7 @@ public:
   void* OpenWebView(void* pParent, float x, float y, float w, float h, float scale = 1.);
   void CloseWebView();
   
-  void LoadHTML(const WDL_String& html);
+  void LoadHTML(const char* html);
   void LoadURL(const char* url);
   void LoadFile(const char* fileName, const char* bundleID);
   void EvaluateJavaScript(const char* scriptStr, completionHandlerFunc func = nullptr);

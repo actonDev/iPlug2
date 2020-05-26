@@ -18,9 +18,9 @@ IPlugEffect::IPlugEffect(const InstanceInfo& info)
     pGraphics->AttachPanelBackground(COLOR_GRAY);
     pGraphics->LoadFont("Roboto-Regular", ROBOTO_FN);
     const IRECT b = pGraphics->GetBounds();
-    pGraphics->AttachControl(new IWebViewControl(b.GetCentredInside(600), false,
+    pGraphics->AttachControl(new IWebViewControl(b.GetCentredInside(200), false,
                                                  [](IWebViewControl* pCaller){
-        pCaller->LoadURL("https://virtualcz.io");
+      pCaller->LoadHTML("<h1>Hello World</h1>");
     }), 0);
 //    pGraphics->AttachControl(new IWebViewControl(b.GetFromBottom(200)));
     pGraphics->AttachControl(new IVButtonControl(b.GetFromTRHC(10, 10), [b](IControl* pCaller){

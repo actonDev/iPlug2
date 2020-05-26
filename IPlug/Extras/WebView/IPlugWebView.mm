@@ -128,10 +128,10 @@ void IWebView::CloseWebView()
   mScriptHandler = nullptr;
 }
 
-void IWebView::LoadHTML(const WDL_String& html)
+void IWebView::LoadHTML(const char* html)
 {
   WKWebView* webView = (__bridge WKWebView*) mWKWebView;
-  [webView loadHTMLString:[NSString stringWithUTF8String:html.Get()] baseURL:nil];
+  [webView loadHTMLString:[NSString stringWithUTF8String:html] baseURL:nil];
 }
 
 void IWebView::LoadURL(const char* url)
@@ -193,7 +193,7 @@ void IWebView::SetWebViewBounds(float x, float y, float w, float h, float scale)
 {
 //  [NSAnimationContext beginGrouping]; // Prevent animated resizing
 //  [[NSAnimationContext currentContext] setDuration:0.0];
-  [(__bridge WKWebView*) mWKWebView setFrame: MAKERECT(x, y, (float) w, (float) h) ];
+  [(__bridge WKWebView*) mWKWebView setFrame: MAKERECT(x * scale, y * scale, w * scale, h * scale) ];
 //  [NSAnimationContext endGrouping];
 }
 

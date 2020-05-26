@@ -159,14 +159,19 @@ void IGraphicsIOS::PlatformResize(bool parentHasResized)
   }
 }
 
-void IGraphicsIOS::AddPlatformView(const IRECT& r, void* pPlatformView)
+void IGraphicsIOS::AttachPlatformView(const IRECT& r, void* pView)
 {
   IGRAPHICS_VIEW* pMainView = (IGRAPHICS_VIEW*) mView;
   
-  UIView* pNewSubView = (UIView*) pPlatformView;
+  UIView* pNewSubView = (UIView*) pView;
   [pNewSubView setFrame:ToCGRect(this, r)];
 
   [pMainView addSubview:pNewSubView];
+}
+
+void IGraphicsIOS::RemovePlatformView(void* pView)
+{
+  [(UIView*) pView removeFromSuperview];
 }
 
 EMsgBoxResult IGraphicsIOS::ShowMessageBox(const char* str, const char* caption, EMsgBoxType type, IMsgBoxCompletionHanderFunc completionHandler)
