@@ -13,6 +13,7 @@
 #endif
 
 #include "IPlugWebViewEditorDelegate.h"
+#import <UIKit/UIKit.h>
 
 using namespace iplug;
 

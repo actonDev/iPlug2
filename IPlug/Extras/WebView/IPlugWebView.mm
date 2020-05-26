@@ -174,8 +174,7 @@ void IWebView::EvaluateJavaScript(const char* scriptStr, completionHandlerFunc f
         NSLog(@"Error %@",error);
       else if(func)
       {
-        const WDL_String str {[result UTF8String]};
-        func(str);
+        func([result UTF8String]);
       }
     }];
   }

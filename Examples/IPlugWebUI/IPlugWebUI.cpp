@@ -14,8 +14,12 @@ IPlugWebUI::IPlugWebUI(const InstanceInfo& info)
     //To serve content from the app you can use IWebsocketServer which wraps Civetweb
     
     //Otherwise you can load web content into WKWebView via the filesystem, but beware, many modern toolkits like React require content to be served!
-    //LoadFile("index.html", GetBundleID());
+    
+#ifdef OS_WIN
     LoadFile("C:\\Users\\oli\\Dev\\iPlug2\\Examples\\IPlugWebUI\\resources\\web\\index.html", nullptr);
+#else
+    LoadFile("index.html", GetBundleID());
+#endif
   };
   
   MakePreset("One", 0.);
