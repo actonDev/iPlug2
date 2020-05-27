@@ -82,11 +82,20 @@ void* IWebView::OpenWebView(void* pParent, float x, float y, float w, float h, f
   [preferences setValue:@YES forKey:@"developerExtrasEnabled"];
   webConfig.preferences = preferences;
   
+  // this script adds a function IPlugSendMsg that is used to call the platform webview messaging function in JS
+  WKUserScript* script1 = [[WKUserScript alloc] initWithSource:@"function IPlugSendMsg(m) { webkit.messageHandlers.callback.postMessage(m); }" injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:YES];
+  [controller addUserScript:script1];
+
+  // this script prevents view scaling on iOS
+  WKUserScript* script2 = [[WKUserScript alloc] initWithSource:@"var meta = document.createElement('meta'); meta.name = 'viewport'; meta.content = 'width=device-width, initial-scale=1.0, maximum- scale=1.0, user-scalable=no, shrink-to-fit=YES'; var head = document.getElementsByTagName('head')[0]; head.appendChild(meta);"
+                                                 injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];
+  [controller addUserScript:script2];
+  
+  
   WKWebView* webView = [[WKWebView alloc] initWithFrame: MAKERECT(x, y, w, h) configuration:webConfig];
   
 
 #if defined OS_IOS
-  [webView.scrollView setScrollEnabled:NO];
   if(!mOpaque)
   {
     webView.backgroundColor = [UIColor clearColor];
@@ -192,7 +201,7 @@ void IWebView::SetWebViewBounds(float x, float y, float w, float h, float scale)
 {
 //  [NSAnimationContext beginGrouping]; // Prevent animated resizing
 //  [[NSAnimationContext currentContext] setDuration:0.0];
-  [(__bridge WKWebView*) mWKWebView setFrame: MAKERECT(x * scale, y * scale, w * scale, h * scale) ];
+  [(__bridge WKWebView*) mWKWebView setFrame: MAKERECT(x, y, w, h) ];
 //  [NSAnimationContext endGrouping];
 }
 

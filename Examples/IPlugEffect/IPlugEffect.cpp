@@ -18,10 +18,17 @@ IPlugEffect::IPlugEffect(const InstanceInfo& info)
     pGraphics->AttachPanelBackground(COLOR_GRAY);
     pGraphics->LoadFont("Roboto-Regular", ROBOTO_FN);
     const IRECT b = pGraphics->GetBounds();
-    pGraphics->AttachControl(new IWebViewControl(b.GetCentredInside(200), false,
-                                                 [](IWebViewControl* pCaller){
-      pCaller->LoadHTML("<h1>Hello World</h1>");
-    }), 0);
+    
+    auto readyFunc = [](IWebViewControl* pCaller){
+      pCaller->LoadHTML(u8"<button onclick='IPlugSendMsg({\"msg\":\"SAMFUI\"})'>Hello World</button>");
+      pCaller->EnableScroll(false);
+    };
+    
+    auto msgFunc = [](IWebViewControl* pCaller, const char* json){
+      pCaller->GetUI()->GetBackgroundControl()->As<IPanelControl>()->SetPattern(IColor::GetRandomColor());
+    };
+    
+    pGraphics->AttachControl(new IWebViewControl(b.GetCentredInside(200), false, readyFunc, msgFunc), 0);
 //    pGraphics->AttachControl(new IWebViewControl(b.GetFromBottom(200)));
     pGraphics->AttachControl(new IVButtonControl(b.GetFromTRHC(10, 10), [b](IControl* pCaller){
       pCaller->GetUI()->GetControlWithTag(0)->SetTargetAndDrawRECTs(b.GetRandomSubRect());

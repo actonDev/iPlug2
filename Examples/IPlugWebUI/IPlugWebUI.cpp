@@ -20,7 +20,10 @@ IPlugWebUI::IPlugWebUI(const InstanceInfo& info)
 #else
     LoadFile("index.html", GetBundleID());
 #endif
+    
+    EnableScroll(false);
   };
+  
   
   MakePreset("One", 0.);
   MakePreset("Two", -30.);
@@ -67,7 +70,8 @@ bool IPlugWebUI::OnMessage(int msgTag, int ctrlTag, int dataSize, const void* pD
 
 void IPlugWebUI::OnIdle()
 {
-  SendControlValueFromDelegate(kCtrlTagMeter, mLastPeak);
+  if(mLastPeak > 0.01)
+    SendControlValueFromDelegate(kCtrlTagMeter, mLastPeak);
 }
 
 void IPlugWebUI::OnParamChange(int paramIdx)

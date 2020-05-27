@@ -13,7 +13,10 @@
 #endif
 
 #include "IPlugWebViewEditorDelegate.h"
+
+#ifdef OS_IOS
 #import <UIKit/UIKit.h>
+#endif
 
 using namespace iplug;
 
@@ -39,6 +42,8 @@ void* WebViewEditorDelegate::OpenWindow(void* pParent)
     mEditorInitFunc();
   
   [parentView addSubview: (__bridge PLATFORM_VIEW*) pView];
+  
+  OnUIOpen();
   
   return pView;
 }

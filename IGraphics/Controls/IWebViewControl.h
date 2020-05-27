@@ -25,15 +25,16 @@ BEGIN_IGRAPHICS_NAMESPACE
 class IWebViewControl;
 
 using OnReadyFunc = std::function<void(IWebViewControl* pWebView)>;
-
+using OnMessageFunc = std::function<void(IWebViewControl* pWebView, const char* jsonMsg)>;
 /** @ingroup IControls */
 class IWebViewControl : public IControl, public IWebView
 {
 public:
-  IWebViewControl(const IRECT& bounds, bool opaque = true, OnReadyFunc func = nullptr)
+  IWebViewControl(const IRECT& bounds, bool opaque = true, OnReadyFunc readyFunc = nullptr, OnMessageFunc msgFunc = nullptr)
   : IControl(bounds)
   , IWebView(opaque)
-  , mOnReadyFunc(func)
+  , mOnReadyFunc(readyFunc)
+  , mOnMessageFunc(msgFunc)
   {
   }
   
@@ -58,6 +59,12 @@ public:
     if(mOnReadyFunc)
       mOnReadyFunc(this);
   }
+  
+  void OnMessageFromWebView(const char* json) override
+  {
+    if(mOnMessageFunc)
+      mOnMessageFunc(this, json);
+  }
 
   void OnRescale() override
   {
@@ -72,6 +79,7 @@ public:
 private:
   void* mPlatformView = nullptr;
   OnReadyFunc mOnReadyFunc;
+  OnMessageFunc mOnMessageFunc;
 };
 
 END_IGRAPHICS_NAMESPACE
