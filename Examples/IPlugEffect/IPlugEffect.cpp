@@ -20,7 +20,9 @@ IPlugEffect::IPlugEffect(const InstanceInfo& info)
     const IRECT b = pGraphics->GetBounds();
     
     auto readyFunc = [](IWebViewControl* pCaller){
-      pCaller->LoadHTML(u8"<button onclick='IPlugSendMsg({\"msg\":\"SAMFUI\"})'>Hello World</button>");
+      pCaller->LoadHTML(u8"<input type=\"range\" id=\"vol\" name=\"vol\" min=\"0\" max=\"100\" onchange='IPlugSendMsg({\"msg\":\"SAMFUI\"})'>");
+
+//      pCaller->LoadHTML(u8"<button onclick='IPlugSendMsg({\"msg\":\"SAMFUI\"})'>Hello World</button>");
       pCaller->EnableScroll(false);
     };
     
