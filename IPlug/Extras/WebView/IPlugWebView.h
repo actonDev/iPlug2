@@ -68,6 +68,7 @@ private:
   wil::com_ptr<ICoreWebView2Controller> mWebViewCtrlr;
   wil::com_ptr<ICoreWebView2> mWebViewWnd;
   EventRegistrationToken mWebMessageReceivedToken;
+  EventRegistrationToken mNavigationCompletedToken;
 #endif
 };
 

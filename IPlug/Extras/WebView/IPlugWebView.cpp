@@ -69,6 +69,19 @@ void* IWebView::OpenWebView(void* pParent, float x, float y, float w, float h, f
                   return S_OK;
                 }).Get(), &mWebMessageReceivedToken);
 
+            mWebViewWnd->add_NavigationCompleted(
+              Callback<ICoreWebView2NavigationCompletedEventHandler>(
+                [this](ICoreWebView2* sender, ICoreWebView2NavigationCompletedEventArgs* args) -> HRESULT {
+                  BOOL success;
+                  args->get_IsSuccess(&success);
+                  if (success)
+                  {
+                    OnWebContentLoaded();
+                  }
+                  return S_OK;
+                })
+              .Get(), &mNavigationCompletedToken);
+
             mWebViewCtrlr->put_Bounds({ (LONG) x, (LONG) y, (LONG) (x + w), (LONG) (y + h) });
             OnWebViewReady();
             return S_OK;

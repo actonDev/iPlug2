@@ -34,9 +34,5 @@ void* WebViewEditorDelegate::OpenWindow(void* pParent)
   GetClientRect(hWnd, &r);
   int scale = GetScaleForHWND(hWnd);
 
-  void* pWebView = OpenWebView(pParent, r.left / scale, r.top / scale, (r.right - r.left) / scale, (r.bottom - r.top) / scale, scale);
-
-  OnUIOpen();
-
-  return pWebView;
+  return OpenWebView(pParent, r.left / scale, r.top / scale, (r.right - r.left) / scale, (r.bottom - r.top) / scale, scale);
 }
