@@ -24,13 +24,14 @@ BEGIN_IGRAPHICS_NAMESPACE
 
 class IWebViewControl;
 
-using OnReadyFunc = std::function<void(IWebViewControl* pWebView)>;
-using OnMessageFunc = std::function<void(IWebViewControl* pWebView, const char* jsonMsg)>;
+using onReadyFunc = std::function<void(IWebViewControl* pWebView)>;
+using onMessageFunc = std::function<void(IWebViewControl* pWebView, const char* jsonMsg)>;
+
 /** @ingroup IControls */
 class IWebViewControl : public IControl, public IWebView
 {
 public:
-  IWebViewControl(const IRECT& bounds, bool opaque = true, OnReadyFunc readyFunc = nullptr, OnMessageFunc msgFunc = nullptr)
+  IWebViewControl(const IRECT& bounds, bool opaque = true, onReadyFunc readyFunc = nullptr, onMessageFunc msgFunc = nullptr)
   : IControl(bounds)
   , IWebView(opaque)
   , mOnReadyFunc(readyFunc)
@@ -78,8 +79,8 @@ public:
   
 private:
   void* mPlatformView = nullptr;
-  OnReadyFunc mOnReadyFunc;
-  OnMessageFunc mOnMessageFunc;
+  onReadyFunc mOnReadyFunc;
+  onMessageFunc mOnMessageFunc;
 };
 
 END_IGRAPHICS_NAMESPACE

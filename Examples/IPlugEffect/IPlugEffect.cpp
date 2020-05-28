@@ -32,8 +32,8 @@ IPlugEffect::IPlugEffect(const InstanceInfo& info)
     
     pGraphics->AttachControl(new IWebViewControl(b.GetCentredInside(200), false, readyFunc, msgFunc), 0);
 //    pGraphics->AttachControl(new IWebViewControl(b.GetFromBottom(200)));
-    pGraphics->AttachControl(new IVButtonControl(b.GetFromTRHC(10, 10), [b](IControl* pCaller){
-      pCaller->GetUI()->GetControlWithTag(0)->SetTargetAndDrawRECTs(b.GetRandomSubRect());
+    pGraphics->AttachControl(new IVButtonControl(b.GetFromTRHC(50, 50), [b](IControl* pCaller){
+      pCaller->GetUI()->GetControlWithTag(0)->As<IWebViewControl>()->EvaluateJavaScript(R"(document.body.style.background = "#000";)");
     }));
   };
 #endif

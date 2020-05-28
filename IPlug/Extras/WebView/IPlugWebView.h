@@ -32,7 +32,7 @@ BEGIN_IPLUG_NAMESPACE
 
 using completionHandlerFunc = std::function<void(const char* result)>;
 
-/** TODO */
+/** IWebView is a base interface for hosting a platform web view inside an IPlug plug-in's UI */
 class IWebView
 {
 public:
