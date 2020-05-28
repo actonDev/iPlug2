@@ -49,10 +49,15 @@ public:
   void EnableScroll(bool enable);
   void SetWebViewBounds(float x, float y, float w, float h, float scale = 1.);
 
-  virtual void OnMessageFromWebView(const char* json) {}
+  /** Called when the web view is ready to receive navigation instructions*/
   virtual void OnWebViewReady() {}
+  
+  /** Called after navigation instructions have been exectued and e.g. a page has loaded */
   virtual void OnWebContentLoaded() {}
   
+  /** When a script in the web view posts a message, it will arrive as a json string here */
+  virtual void OnMessageFromWebView(const char* json) {}
+
 private:
   bool mOpaque = true;
 #if defined OS_MAC || defined OS_IOS

@@ -12,8 +12,6 @@
 
 #include "IPlugWebViewEditorDelegate.h"
 
-#include "json11.cpp"
-
 using namespace iplug;
 
 WebViewEditorDelegate::WebViewEditorDelegate(int nParams)

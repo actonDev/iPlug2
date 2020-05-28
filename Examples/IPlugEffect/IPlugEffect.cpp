@@ -3,6 +3,10 @@
 #include "IControls.h"
 #include "IWebViewControl.h"
 
+#include "json.hpp"
+
+using json = nlohmann::json;
+
 IPlugEffect::IPlugEffect(const InstanceInfo& info)
 : Plugin(info, MakeConfig(kNumParams, kNumPrograms))
 {
@@ -20,21 +24,26 @@ IPlugEffect::IPlugEffect(const InstanceInfo& info)
     const IRECT b = pGraphics->GetBounds();
     
     auto readyFunc = [](IWebViewControl* pCaller){
-      pCaller->LoadHTML(u8"<input type=\"range\" id=\"vol\" name=\"vol\" min=\"0\" max=\"100\" onchange='IPlugSendMsg({\"msg\":\"SAMFUI\"})'>");
+      pCaller->LoadHTML(R"(<input type="range" id="vol" name="vol" min="0" max="100" onchange='IPlugSendMsg({"msg":"SAMFUI"})'>)");
 
 //      pCaller->LoadHTML(u8"<button onclick='IPlugSendMsg({\"msg\":\"SAMFUI\"})'>Hello World</button>");
       pCaller->EnableScroll(false);
     };
     
     auto msgFunc = [](IWebViewControl* pCaller, const char* json){
+      auto j = json::parse(json, nullptr, false);
+      DBGMSG("%s\n", std::string(j["msg"]).c_str());
       pCaller->GetUI()->GetBackgroundControl()->As<IPanelControl>()->SetPattern(IColor::GetRandomColor());
     };
     
     pGraphics->AttachControl(new IWebViewControl(b.GetCentredInside(200), false, readyFunc, msgFunc), 0);
+    
+//    pGraphics->AttachControl(new IWebViewControl(b.GetFromTop(200), false, readyFunc, msgFunc), 0);
+
 //    pGraphics->AttachControl(new IWebViewControl(b.GetFromBottom(200)));
-    pGraphics->AttachControl(new IVButtonControl(b.GetFromTRHC(50, 50), [b](IControl* pCaller){
+    pGraphics->AttachControl(new IVButtonControl(b.GetFromTRHC(50, 50)))->SetAnimationEndActionFunction([b](IControl* pCaller){
       pCaller->GetUI()->GetControlWithTag(0)->As<IWebViewControl>()->EvaluateJavaScript(R"(document.body.style.background = "#000";)");
-    }));
+    });
   };
 #endif
 }

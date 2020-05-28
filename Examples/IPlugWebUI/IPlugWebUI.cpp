@@ -24,7 +24,6 @@ IPlugWebUI::IPlugWebUI(const InstanceInfo& info)
     EnableScroll(false);
   };
   
-  
   MakePreset("One", 0.);
   MakePreset("Two", -30.);
   MakePreset("Three", 40.);

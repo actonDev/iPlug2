@@ -42,8 +42,6 @@ void* WebViewEditorDelegate::OpenWindow(void* pParent)
     mEditorInitFunc();
   
   [parentView addSubview: (__bridge PLATFORM_VIEW*) pView];
-  
-  OnUIOpen();
-  
+    
   return pView;
 }

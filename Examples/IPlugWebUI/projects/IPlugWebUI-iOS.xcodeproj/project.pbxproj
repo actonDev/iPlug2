@@ -17,7 +17,6 @@
 		4F7DB9D4247895C200ACF64B /* IPlugWebViewEditorDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F7DB9D0247895C200ACF64B /* IPlugWebViewEditorDelegate.h */; };
 		4F7DB9D5247895C200ACF64B /* IPlugWebView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4F7DB9D1247895C200ACF64B /* IPlugWebView.mm */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4FA0FB22247D4E5600E25C73 /* IPlugWebViewEditorDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4F7DB9CE247895C200ACF64B /* IPlugWebViewEditorDelegate.mm */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
-		4FA0FB24247D4FCC00E25C73 /* json11.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4FA0FB23247D4FCB00E25C73 /* json11.cpp */; };
 		4FA0FB25247D4FE800E25C73 /* web in Resources */ = {isa = PBXBuildFile; fileRef = 4FC46E58231440C8000045E7 /* web */; };
 		4FA61F6822E8996C00A92C58 /* IPlugAUv3Appex.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA61F6722E8996C00A92C58 /* IPlugAUv3Appex.m */; };
 		4FA61F7522E899B500A92C58 /* AUv3Framework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FA61F6E22E899B500A92C58 /* AUv3Framework.framework */; };
@@ -128,7 +127,6 @@
 		4F977D5520CC9DD800D19F46 /* Oversampler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Oversampler.h; sourceTree = "<group>"; };
 		4F97F45D22564D6600EB54ED /* GenericUI.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = GenericUI.mm; path = ../../../IPlug/AUv3/GenericUI.mm; sourceTree = "<group>"; };
 		4F97F45E22564D6600EB54ED /* GenericUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GenericUI.h; path = ../../../IPlug/AUv3/GenericUI.h; sourceTree = "<group>"; };
-		4FA0FB23247D4FCB00E25C73 /* json11.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = json11.cpp; path = ../../../Dependencies/Extras/json11/json11.cpp; sourceTree = "<group>"; };
 		4FA61F6722E8996C00A92C58 /* IPlugAUv3Appex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IPlugAUv3Appex.m; path = ../../../IPlug/AUv3/IPlugAUv3Appex.m; sourceTree = "<group>"; };
 		4FA61F6E22E899B500A92C58 /* AUv3Framework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AUv3Framework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FA61F7A22E89A2700A92C58 /* IPlugWebUI-iOS-AUv3Framework-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "IPlugWebUI-iOS-AUv3Framework-Info.plist"; path = "../resources/IPlugWebUI-iOS-AUv3Framework-Info.plist"; sourceTree = "<group>"; };
@@ -423,7 +421,6 @@
 				4FFF108420A1036200D3092F /* config.h */,
 				4FFF108820A1036200D3092F /* IPlugWebUI.h */,
 				4FF8974B24782DE9004845AC /* IPlugWebUI.cpp */,
-				4FA0FB23247D4FCB00E25C73 /* json11.cpp */,
 				4F8D8BD82316701900EFA1FB /* README.md */,
 				4F8BF48D20A12D2E0081DF0A /* Resources */,
 				4F67D51620A121F60061FB8E /* Other Sources */,
@@ -640,7 +637,6 @@
 				4FA61F7E22E89AFF00A92C58 /* IPlugPluginBase.cpp in Sources */,
 				4F7DB9D5247895C200ACF64B /* IPlugWebView.mm in Sources */,
 				4FA61F8222E89AFF00A92C58 /* IPlugTimer.cpp in Sources */,
-				4FA0FB24247D4FCC00E25C73 /* json11.cpp in Sources */,
 				4FA61F8322E89AFF00A92C58 /* IPlugPaths.mm in Sources */,
 				4FA61F8122E89AFF00A92C58 /* IPlugParameter.cpp in Sources */,
 				4FA0FB22247D4E5600E25C73 /* IPlugWebViewEditorDelegate.mm in Sources */,

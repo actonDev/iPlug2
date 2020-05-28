@@ -13,7 +13,7 @@
 #include "IPlugEditorDelegate.h"
 #include "IPlugWebView.h"
 #include "wdl_base64.h"
-#include "json11.hpp"
+#include "json.hpp"
 #include <functional>
 
 BEGIN_IPLUG_NAMESPACE
@@ -72,33 +72,23 @@ public:
 
   void OnMessageFromWebView(const char* jsonStr) override
   {
-    std::string err;
-
-    json11::Json json = json11::Json::parse(jsonStr, err);
+    auto json = nlohmann::json::parse(jsonStr, nullptr, false);
     
-    if(err.length())
+    if(json["msg"] == "SPVFUI")
     {
-      DBGMSG("%s\n", err.c_str());
-      return;
+      SendParameterValueFromUI(json["paramIdx"], json["value"]);
     }
-    else
+    else if (json["msg"] == "BPCFUI")
     {
-      if(json["msg"] == "SPVFUI")
-      {
-        SendParameterValueFromUI(json["paramIdx"].int_value(), json["value"].number_value());
-      }
-      else if (json["msg"] == "BPCFUI")
-      {
-        BeginInformHostOfParamChangeFromUI(json["paramIdx"].int_value());
-      }
-      else if (json["msg"] == "EPCFUI")
-      {
-        EndInformHostOfParamChangeFromUI(json["paramIdx"].int_value());
-      }
-      else if (json["msg"] == "SAMFUI")
-      {
-        SendArbitraryMsgFromUI(json["msgTag"].int_value(), json["ctrlTag"].int_value(), json["dataSize"].int_value(), /*dataSize > 0 ? json["data"] :*/ nullptr);
-      }
+      BeginInformHostOfParamChangeFromUI(json["paramIdx"]);
+    }
+    else if (json["msg"] == "EPCFUI")
+    {
+      EndInformHostOfParamChangeFromUI(json["paramIdx"]);
+    }
+    else if (json["msg"] == "SAMFUI")
+    {
+      SendArbitraryMsgFromUI(json["msgTag"], json["ctrlTag"], json["dataSize"], /*dataSize > 0 ? json["data"] :*/ nullptr);
     }
   }
 
@@ -112,6 +102,11 @@ public:
   {
     if (mEditorInitFunc)
       mEditorInitFunc();
+  }
+  
+  void OnWebContentLoaded() override
+  {
+    OnUIOpen();
   }
   
 protected:
