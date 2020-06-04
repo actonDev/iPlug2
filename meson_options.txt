@@ -1,0 +1,37 @@
+option('IGRAPHICS',
+       type: 'array',
+       choices: [
+	 'NO_IGRAPHICS',
+	 # possible graphics libraries
+	 # see IGraphics.h
+	 'IGRAPHICS_AGG',
+	 'IGRAPHICS_CAIRO',
+	 'IGRAPHICS_NANOVG',
+	 'IGRAPHICS_LICE',
+	 'IGRAPHICS_CANVAS',
+	 'IGRAPHICS_SKIA',
+	 # --
+
+	 # other flags..?
+	 # see files:
+	 # IGraphics_include_in_plug_hdr.h
+	 # IGraphics_select.h
+	 # IGraphics.cpp
+	 'IGRAPHICS_GLES2',
+	 'IGRAPHICS_GLES3',
+	 'IGRAPHICS_GL',
+	 'IGRAPHICS_GL2',
+	 'IGRAPHICS_GL3',
+	 
+	 'IGRAPHICS_IMGUI',
+
+	 'IGRAPHICS_DRAWFILL_DIRECT',
+	 'IGRAPHICS_CPU',
+	 'IGRAPHICS_WEB_POINTERLOCK',
+	 'IGRAPHICS_FREETYPE',
+
+	 'IGRAPHICS_METAL',
+	 'IGRAPHICS_IMGUI',
+       ],
+       value: ['NO_IGRAPHICS']
+      )

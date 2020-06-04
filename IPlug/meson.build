@@ -1,4 +1,5 @@
 includes += include_directories('.')
+
 sources += files(
 'IPlugAPIBase.cpp',
  'IPlugParameter.cpp',
