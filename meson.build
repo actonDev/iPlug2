@@ -1,4 +1,4 @@
-# project('iplug2', 'cpp', 'c')
+project('iplug2', 'cpp', 'c')
 
 sources = []
 includes = []
@@ -17,14 +17,15 @@ else
 endif
 
 arguments = []
-# todo: iterate IGRAPHICS option, and add the defines
 foreach igraphic : igraphics
   argument = '-D'+igraphic
   message('adding argument ' + argument)
-  # it seems like it doesn't work with add_project_arguments ?
-  # however add_global_arguments doesn't work in subprojects
   arguments += argument
-  add_project_arguments(argument, language : 'cpp')
+  # the add_project_arguments directive works if we add iplug2 as a subdir
+  # but as a subproject, the parent project should get the 'arguments'
+  # and foreach of those run the add_project_arguments
+  
+  # add_project_arguments(argument, language : 'cpp')
 endforeach
 
 subdir('IPlug')
