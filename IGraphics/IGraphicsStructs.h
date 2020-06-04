@@ -240,7 +240,7 @@ struct IColor
   bool Empty() const { return A == 0 && R == 0 && G == 0 && B == 0; }
   
   /** /todo */
-  void Clamp() { A = Clip(A, 0, 255); R = Clip(R, 0, 255); Clip(G, 0, 255); B = Clip(B, 0, 255); }
+  void Clamp() { A = Clip(A, 0, 255); R = Clip(R, 0, 255); G = Clip(G, 0, 255); B = Clip(B, 0, 255); }
   
   /** /todo 
    * @param alpha */
@@ -2147,6 +2147,29 @@ struct IPattern
     for (auto& stop : stops)
       pattern.AddStop(stop.mColor, stop.mOffset);
     
+    return pattern;
+  }
+
+  static IPattern CreateSweepGradient(float x1, float y1, const std::initializer_list<IColorStop>& stops = {},
+    float angleStart = 0.f, float angleEnd = 360.f)
+  {
+    IPattern pattern(EPatternType::Sweep);
+
+    #ifdef IGRAPHICS_SKIA
+      angleStart -= 90;
+      angleEnd -= 90;
+    #endif
+
+    float rad = DegToRad(angleStart);
+    float c = std::cos(rad);
+    float s = std::sin(rad);
+
+    pattern.SetTransform(c, s, -s, c, -x1, -y1);
+
+    for (auto& stop : stops)
+    {
+      pattern.AddStop(stop.mColor, stop.mOffset * (angleEnd - angleStart) / 360.f);
+    }
     return pattern;
   }
   
