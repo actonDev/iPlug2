@@ -1,0 +1,35 @@
+* Getting the VST sdk
+  At the time of writing <2020-06-05 Fri> the https://www.steinberg.net/vst3sdk link redirects to https://download.steinberg.net/sdk_downloads/vst-sdk_3.6.14_build-24_2019-11-29.zip
+
+  #+BEGIN_SRC sh
+wget -O vst-sdk.zip https://download.steinberg.net/sdk_downloads/vst-sdk_3.6.14_build-24_2019-11-29.zip
+# uznipping relevant folder with correct structure
+unzip -qq -o vst-sdk.zip 'VST_SDK/VST3_SDK/base/**' 'VST_SDK/VST3_SDK/pluginterfaces/**' 'VST_SDK/VST3_SDK/public.sdk/**' -d out
+mv out/VST_SDK/VST3_SDK/* .
+rm -r out
+  #+END_SRC
+
+  
+* Validating
+  The subdirectories should have a structure like:
+  #+BEGIN_SRC sh :results pp :exports results
+tree -d -L 2
+  #+END_SRC
+
+  #+RESULTS:
+  #+begin_example
+  .
+  ├── base
+  │   ├── source
+  │   └── thread
+  ├── pluginterfaces
+  │   ├── base
+  │   ├── gui
+  │   ├── test
+  │   └── vst
+  └── public.sdk
+      ├── samples
+      └── source
+
+  11 directories
+  #+end_example

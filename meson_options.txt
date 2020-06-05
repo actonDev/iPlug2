@@ -35,3 +35,19 @@ option('IGRAPHICS',
        ],
        value: ['NO_IGRAPHICS']
       )
+
+option('IPLUG_TARGET',
+       type: 'combo',
+       choices:
+	 # for now only tested with APP and VST3
+	 [
+	   # 'AAX',
+	   'APP',
+	   # 'AUv2',
+	   # 'AUv3',
+	   # 'ReaperExt',
+	   # 'VST2',
+	   'VST3',
+	   # 'WEB',
+	 ],
+      value: 'APP')
