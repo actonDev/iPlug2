@@ -1,0 +1,103 @@
+* iPlug2 & Meson
+  Example usage:
+
+  - Create your vst/standalone app with meson
+  - Use iPlug2 as a subproject
+    #+BEGIN_SRC meson
+iplug2_proj = subproject('iplug2',
+			 default_options: ['IGRAPHICS=IGRAPHICS_NANOVG,IGRAPHICS_GL2',
+					  ])
+    
+    #+END_SRC
+
+** Standalone APP
+   #+BEGIN_SRC meson
+iplug2_APP_args = iplug2_proj.get_variable('args_common') + iplug2_proj.get_variable('args_APP')
+message('Target APP, adding cpp_args ' + ','.join(iplug2_APP_args))
+
+exe = executable(
+  'IPlugControls-APP',
+  dependencies : [
+    app_dep,
+    iplug2_proj.get_variable('iplug2_APP_dep'),
+  ],
+  link_args: link_args,
+  cpp_args: extra_args + iplug2_APP_args,
+  gui_app: true,
+  install: true,
+  implib: true,
+)   
+   #+END_SRC
+
+** VST3
+   #+BEGIN_SRC meson
+iplug2_VST3_args = iplug2_proj.get_variable('args_common') + iplug2_proj.get_variable('args_VST3')
+message('Target VST3, adding cpp_args ' + ','.join(iplug2_VST3_args))
+
+vst3 = shared_library(
+  'IPlugControls-VST3',
+  dependencies : [
+    app_dep,
+    iplug2_proj.get_variable('iplug2_VST3_dep'),
+  ],
+  link_args: link_args,
+  cpp_args: extra_args + iplug2_VST3_args,
+  install: true,
+  name_suffix: 'vst3',
+  vs_module_defs: 'subprojects/iPlug2/Dependencies/IPlug/VST3_SDK/public.sdk/source/main/winexport.def'
+)   
+   #+END_SRC
+* Design choices & info
+  Some choices made to have in mind
+  - the sources (.cpp) files are stated explicitly in the mson.build of every subfolder
+  - one exclusion to the above is the VST3 sdk, where modifying the underlying structure to add the  =meson.build= files is not an option (the source tree is from unzipping the downloaded file). See   see [[file:Dependencies/IPlug/VST3_SDK/meson.build]]
+  - usually every =subdir= has the following lines:
+    #+BEGIN_SRC sh
+includes += include_directories('.')
+sources += files(
+# a list of cpp files in this directory to be built
+)
+    #+END_SRC
+    The =sources= and =includes= list is defined in the top level [[file:meson.build]]
+
+** About multiple targets: APP & VST3
+   In a first iteration I was passing an option to build APP or VST3
+  
+   the [[file:IPlug/meson.build]] for example contained the following code
+
+   #+BEGIN_SRC meson
+target = get_option('IPLUG_TARGET')
+message('IPLUG_TARGET: ' + target)
+if target == 'APP'
+  subdir('APP')
+elif target == 'VST3'
+  subdir('VST3')
+endif
+  
+   #+END_SRC
+
+   That wouldn't scale to create projects that build APP & VST3.
+
+   The chosen solution is to
+   - add =sources_APP= and =sources_VST3= in the top level =meson.build= file
+   - instead of conditionally adding the =subdirs= about =APP= or =VST3= the following is done
+     #+BEGIN_SRC meson
+sources_common = sources
+
+sources = sources_APP
+subdir('APP')
+sources_APP = sources
+
+sources = sources_VST3
+subdir('VST3')
+sources_VST3 = sources
+
+sources = sources_common
+     
+     #+END_SRC
+
+     In order not to have to replace all the =meson.build= files in the subdirectories to reference =sources_VST3= or =sources_APP= etc
+
+     The files that have this trick are
+     - [[file:IPlug/meson.build]]
+     - [[file:Dependencies/IPlug/meson.build]]

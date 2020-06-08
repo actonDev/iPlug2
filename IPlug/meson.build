@@ -9,14 +9,16 @@ sources += files(
  'IPlugTimer.cpp',
 )
 
-# checking IPLUG_TARGET
-target = get_option('IPLUG_TARGET')
-message('IPLUG_TARGET: ' + target)
-if target == 'APP'
-  subdir('APP')
-elif target == 'VST3'
-  subdir('VST3')
-endif
+sources_common = sources
 
-# todo: do we always need Extras?
+sources = sources_APP
+subdir('APP')
+sources_APP = sources
+
+sources = sources_VST3
+subdir('VST3')
+sources_VST3 = sources
+
+sources = sources_common
+
 subdir('Extras')

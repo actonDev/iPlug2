@@ -3,6 +3,9 @@ project('iplug2', 'cpp', 'c')
 sources = []
 includes = []
 
+sources_APP = []
+sources_VST3 = []
+
 message('in iplug2 project..')
 message('igraphics option is ' + ', '.join(get_option('IGRAPHICS')))
 igraphics = get_option('IGRAPHICS')
@@ -16,23 +19,60 @@ else
   subdir('Dependencies/IGraphics')
 endif
 
-arguments = []
+args_common = []
 foreach igraphic : igraphics
   argument = '-D'+igraphic
   message('adding argument ' + argument)
-  arguments += argument
-  # the add_project_arguments directive works if we add iplug2 as a subdir
-  # but as a subproject, the parent project should get the 'arguments'
-  # and foreach of those run the add_project_arguments
-  
-  # add_project_arguments(argument, language : 'cpp')
+  args_common += argument
 endforeach
+
+# default ones, hardcoded for now
+args_common += [
+  '-DIPLUG_DSP=1',
+  '-DIPLUG_EDITOR=1',
+  '-DNOMINMAX',
+]
+
+system = build_machine.system()
+if system == 'windows'
+  args_common += [
+    '-D__WINDOWS_ASIO__',
+    '-D__WINDOWS_MM__',
+    '-D__WINDOWS_DS__',
+  ]
+else
+  # can i just.. error/exception or something ?
+  assert(false, 'Cannot handle system ' + system)
+endif
+
+
+# target = get_option('IPLUG_TARGET')
+args_APP = [
+  '-DAPP_API',
+]
+
+args_VST3 = [
+  '-DVST3_API'
+]
+
+
+if system == 'windows'
+  args_VST3 += [
+    '-D_WIN32',
+    '-D_WINDLL',
+  ]
+endif
 
 subdir('IPlug')
 subdir('Dependencies')
 subdir('WDL')
 
-iplug2_dep = declare_dependency(
+iplug2_APP_dep = declare_dependency(
   include_directories: includes,
-  sources: sources
-  )
+  sources: sources + sources_APP
+)
+
+iplug2_VST3_dep = declare_dependency(
+  include_directories: includes,
+  sources: sources + sources_VST3
+)
