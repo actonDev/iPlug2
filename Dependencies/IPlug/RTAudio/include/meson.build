@@ -1,8 +1,13 @@
 includes += include_directories('.')
-sources += files(
-'asio.cpp',
- 'asiodrivers.cpp',
- 'asiolist.cpp',
- 'iasiothiscallresolver.cpp',
 
-)
+system = build_machine.system()
+
+if system == 'windows'
+  sources += files(
+    'asio.cpp',
+    'asiodrivers.cpp',
+    'asiolist.cpp',
+    'iasiothiscallresolver.cpp',
+
+  )
+endif

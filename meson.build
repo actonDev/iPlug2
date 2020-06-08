@@ -1,5 +1,7 @@
 project('iPlug2', 'cpp', 'c')
 
+message('iPlug2 linux...')
+
 sources = []
 includes = []
 
@@ -42,7 +44,11 @@ if system == 'windows'
   ]
 else
   # can i just.. error/exception or something ?
-  assert(false, 'Cannot handle system ' + system)
+  # assert(false, 'Cannot handle system ' + system)
+    args_common += [
+    '-Dlinux', # seen in IPlugPlatform.h
+    '-D__LINUX_PULSE__',
+  ]
 endif
 
 

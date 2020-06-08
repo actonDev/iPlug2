@@ -19,3 +19,15 @@ if igraphics.contains('IGRAPHICS_GL3')
   message('adding glad_GL3')
   includes += include_directories('./glad_GL3/include')
 endif
+
+system = build_machine.system()
+if system == 'linux'
+  includes += include_directories('./xcbt')
+  includes += include_directories('./glad_GLX/include/')
+  includes += include_directories('./glad_GLX/src/')
+  sources += files (
+    './glad_GLX/src/glad_glx.c',
+    './glad_GL2/src/glad.c',
+    './xcbt/xcbt.c'
+    )
+endif
