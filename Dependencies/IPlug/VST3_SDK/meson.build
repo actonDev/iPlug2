@@ -1,6 +1,9 @@
 # note, no subdirs here, since th subfolders are coming from uzniping the sdk
 
 message('in VST3_SDK dir')
+res = run_command('bash', 'config.sh')
+message('VST3 sdk download: \n' + res.stdout().strip())
+
 # not sure at the end if the rest are needed
 includes += include_directories('.')
 

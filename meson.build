@@ -1,4 +1,4 @@
-project('iplug2', 'cpp', 'c')
+project('iPlug2', 'cpp', 'c')
 
 sources = []
 includes = []
