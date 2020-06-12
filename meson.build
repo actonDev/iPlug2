@@ -71,6 +71,12 @@ if system == 'windows'
     '-D_WIN32',
     '-D_WINDLL',
   ]
+elif system == 'linux'
+  # VST needs some definitions
+  # fdebug.h:69:4: error: #error DEVELOPMENT, RELEASE, _DEBUG, or NDEBUG must be defined!
+  # SMTG_PTHREADS ??
+  # SMTG_OS_LINUX
+  args_VST3 += ['-DDEVELOPMENT', '-DSMTG_OS_LINUX']
 endif
 
 subdir('IPlug')
