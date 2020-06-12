@@ -1,4 +1,7 @@
 project('iPlug2', 'cpp', 'c')
+system = build_machine.system()
+
+message('iPlug2 linux...')
 
 sources = []
 includes = []
@@ -14,6 +17,7 @@ igraphics = get_option('IGRAPHICS')
 if igraphics.contains('NO_IGRAPHICS')
   assert(igraphics.length() == 1, 'in the case of NO_IGRAPHICS you cannot pass more options in the IGRAPHICS option')
 else
+  assert(system == 'windows', 'graphics only implemented for windows at the moment')
   assert(igraphics.length() > 0, 'please pass an IGRAPHICS backend')
   subdir('IGraphics')
   subdir('Dependencies/IGraphics')
@@ -33,16 +37,23 @@ args_common += [
   '-DNOMINMAX',
 ]
 
-system = build_machine.system()
 if system == 'windows'
   args_common += [
     '-D__WINDOWS_ASIO__',
     '-D__WINDOWS_MM__',
     '-D__WINDOWS_DS__',
   ]
-else
+elif system == 'linux'
   # can i just.. error/exception or something ?
-  assert(false, 'Cannot handle system ' + system)
+  # assert(false, 'Cannot handle system ' + system)
+    args_common += [
+    '-Dlinux', # seen in IPlugPlatform.h
+    '-DOS_LINUX',
+    '-D__LINUX_PULSE__',
+    '-D__LINUX_ALSA__',
+    # '-DSWELL_PROVIDED_BY_APP',
+    # '-DSWELL_LOAD_SWELL_DYLIB',
+  ]
 endif
 
 
@@ -72,6 +83,7 @@ iplug2_APP_dep = declare_dependency(
   sources: sources + sources_APP
 )
 
+# todo make this optional.. no need to download VST3 sdk if we only want APP..
 iplug2_VST3_dep = declare_dependency(
   include_directories: includes,
   sources: sources + sources_VST3

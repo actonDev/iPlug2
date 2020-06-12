@@ -12,7 +12,7 @@ if system == 'windows'
 elif system == 'linux'
   message('adding linux specific cpp files')
   sources += files(
-'IGraphicsLinux.cpp',
+    'IGraphicsLinux.cpp',
   )
 else
   # can i just.. error/exception or something ?
