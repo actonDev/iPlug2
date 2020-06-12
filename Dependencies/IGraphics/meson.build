@@ -1,4 +1,5 @@
 message('iplug2/Dependencies/IGraphics dir')
+system = build_machine.system()
 
 includes += include_directories('./STB')
 
@@ -7,7 +8,7 @@ if igraphics.contains('IGRAPHICS_NANOVG')
   includes += include_directories('./NanoVG/src')
 endif
 
-if igraphics.contains('IGRAPHICS_GL2')
+if igraphics.contains('IGRAPHICS_GL2') or system == 'linux'
   message('adding glad_GL2')
   includes += include_directories('./glad_GL2/include')
   includes += include_directories('./glad_GL2/src')
@@ -20,7 +21,6 @@ if igraphics.contains('IGRAPHICS_GL3')
   includes += include_directories('./glad_GL3/include')
 endif
 
-system = build_machine.system()
 if system == 'linux'
   includes += include_directories('./xcbt')
   includes += include_directories('./glad_GLX/include/')

@@ -1,4 +1,5 @@
 # note, no subdirs here, since th subfolders are coming from uzniping the sdk
+system = build_machine.system()
 
 message('in VST3_SDK dir')
 res = run_command('bash', 'config.sh')
@@ -35,14 +36,20 @@ sources += files(
  # 'public.sdk/source/common/threadchecker_win32.cpp',
 )
 
+# main files
 sources += files(
-  'public.sdk/source/main/dllmain.cpp',
-  # TODO check this for linux
- # 'public.sdk/source/main/linuxmain.cpp',
- # 'public.sdk/source/main/macmain.cpp',
  'public.sdk/source/main/pluginfactory.cpp',
-  
 )
+
+if system == 'windows'
+  sources += files(
+  'public.sdk/source/main/dllmain.cpp',
+  )
+elif system == 'linux'
+  sources += files(
+  'public.sdk/source/main/linuxmain.cpp',
+  )
+endif
 
 sources += files(
   'base/source/baseiids.cpp',
@@ -52,9 +59,16 @@ sources += files(
  'base/source/fobject.cpp',
  'base/source/fstreamer.cpp',
  'base/source/fstring.cpp',
- 'base/source/timer.cpp',
+ # 'base/source/timer.cpp',
  'base/source/updatehandler.cpp',
 )
+
+if system != 'linux'
+  sources += files(
+    # apparently this is not implemented in linux
+     'base/source/timer.cpp',
+    )
+endif
 
 sources += files(
 'base/thread/source/fcondition.cpp',
