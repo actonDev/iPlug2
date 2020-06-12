@@ -50,7 +50,7 @@ elif system == 'linux'
     '-Dlinux', # seen in IPlugPlatform.h
     '-DOS_LINUX',
     '-D__LINUX_PULSE__',
-    '-D__LINUX_ALSA__',
+    # '-D__LINUX_ALSA__',
     # '-DSWELL_PROVIDED_BY_APP',
     # '-DSWELL_LOAD_SWELL_DYLIB',
   ]
