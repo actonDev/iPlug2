@@ -64,7 +64,7 @@ void IPlugAPIBase::OnHostRequestingImportantParameters(int count, WDL_TypedBuf<i
 void IPlugAPIBase::CreateTimer()
 {
   // problems with linux vst3
-#if !defined(SMTG_OS_LINUX)
+  #if !defined(OS_LINUX) && !defined(VST3_API)
   mTimer = std::unique_ptr<Timer>(Timer::Create(std::bind(&IPlugAPIBase::OnTimer, this, std::placeholders::_1), IDLE_TIMER_RATE));
   #endif
 }
