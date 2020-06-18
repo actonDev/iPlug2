@@ -584,8 +584,8 @@ WDL_DLGRET IPlugAPPHost::MainDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPA
   int height = 0;
 
   switch (uMsg)
-  {
-    case WM_INITDIALOG:
+    {
+  case WM_INITDIALOG:
       {
       gHWND = hwndDlg;
       IPlugAPP* pPlug = pAppHost->GetPlug();
@@ -596,11 +596,13 @@ WDL_DLGRET IPlugAPPHost::MainDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPA
         RECT r = {0, 0, width, height};
         DBGMSG("APP: Initial socket size: %dx%d\n", r.right, r.bottom);
         pAppHost->mSite = SWELL_CreateXBridgeWindow(hwndDlg, &pAppHost->mSiteWnd, &r);
-        if(!pAppHost->OpenWindow(pAppHost->mSiteWnd))
+	DBGMSG("after swell create xbridge window.., hwndDlg is %p\n", hwndDlg);
+        // if(!pAppHost->OpenWindow(pAppHost->mSiteWnd))
 #else
-        if(!pAppHost->OpenWindow(gHWND))
+        
 #endif
-          DBGMSG("couldn't attach gui\n");
+      if(!pAppHost->OpenWindow(gHWND))
+	DBGMSG("couldn't attach gui\n");
 
       width = pPlug->GetEditorWidth();
       height = pPlug->GetEditorHeight();
