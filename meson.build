@@ -65,6 +65,10 @@ args_VST3 = [
   '-DVST3_API'
 ]
 
+# VST needs some definitions
+# fdebug.h:69:4: error: #error DEVELOPMENT, RELEASE, _DEBUG, or NDEBUG must be defined!
+# TODO dev vs release, in flags..?
+args_VST3 += ['-DDEVELOPMENT']
 
 if system == 'windows'
   args_VST3 += [
@@ -72,11 +76,9 @@ if system == 'windows'
     '-D_WINDLL',
   ]
 elif system == 'linux'
-  # VST needs some definitions
-  # fdebug.h:69:4: error: #error DEVELOPMENT, RELEASE, _DEBUG, or NDEBUG must be defined!
   # SMTG_PTHREADS ??
   # SMTG_OS_LINUX
-  args_VST3 += ['-DDEVELOPMENT', '-DSMTG_OS_LINUX']
+  args_VST3 += ['-DSMTG_OS_LINUX']
 endif
 
 subdir('IPlug')

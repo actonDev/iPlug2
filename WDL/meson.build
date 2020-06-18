@@ -5,9 +5,6 @@ includes += include_directories('zlib')
 
 system = build_machine.system()
 if system == 'linux'
-  # cause we build also swell
+  # linux needs swell
   subdir('swell')
-elif system == 'windows'
-  # in windows it's not built.. but needed for some headers..?
-  includes += include_directories('swell')
 endif

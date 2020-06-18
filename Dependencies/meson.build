@@ -10,5 +10,6 @@ if igraphics.contains('NO_IGRAPHICS')
 else
   assert(system == 'windows', 'graphics only implemented for windows at the moment')
   assert(igraphics.length() > 0, 'please pass an IGRAPHICS backend')
+  
   subdir('IGraphics')
 endif
