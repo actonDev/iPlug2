@@ -14,9 +14,10 @@
 
 #include "IPlugStructs.h"
 
-#ifdef OS_LINUX
-#include "IPlugVST3_RunLoop.h"
-#endif
+// #ifdef OS_LINUX
+// #include "IPlugVST3_RunLoop.h"
+// #endif
+
 /** IPlug VST3 View  */
 template <class T>
 class IPlugVST3View : public Steinberg::CPluginView
@@ -97,8 +98,10 @@ public:
       else // Carbon
         return Steinberg::kResultFalse;
 #elif defined OS_LINUX
-      if (strcmp (type, Steinberg::kPlatformTypeX11EmbedWindowID) == 0)
+      if (strcmp (type, Steinberg::kPlatformTypeX11EmbedWindowID) == 0) {
+	   printf("here, linux %p\n", pParent);
         mOwner.OpenWindow(pParent);
+      }
       else
         return Steinberg::kResultFalse;
 #endif
@@ -123,14 +126,14 @@ public:
     return Steinberg::kResultOk;
   }
 
-  #ifdef OS_LINUX
-  Steinberg::tresult PLUGIN_API setFrame (Steinberg::IPlugFrame* frame) override 
-  { 
-    mOwner.SetIntegration(iplug::IPlugVST3_EmbedFactory(frame));
+  // #ifdef OS_LINUX
+  // Steinberg::tresult PLUGIN_API setFrame (Steinberg::IPlugFrame* frame) override 
+  // { 
+  //   mOwner.SetIntegration(iplug::IPlugVST3_EmbedFactory(frame));
     
-    return CPluginView::setFrame(frame);
-  }
-  #endif
+  //   return CPluginView::setFrame(frame);
+  // }
+  // #endif
 
 
   Steinberg::tresult PLUGIN_API queryInterface(const Steinberg::TUID _iid, void** obj) override

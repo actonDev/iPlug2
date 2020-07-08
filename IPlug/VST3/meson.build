@@ -13,6 +13,6 @@ system = build_machine.system()
 if system == 'linux'
   sources += files(
     # from linux branch
-    'IPlugVST3_RunLoop.cpp',
+    # 'IPlugVST3_RunLoop.cpp',
     )
 endif
