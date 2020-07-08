@@ -85,13 +85,49 @@ subdir('IPlug')
 subdir('Dependencies')
 subdir('WDL')
 
+
+system = host_machine.system()
+link_args = []
+if system == 'windows'
+  # just copied that from the provided examples
+  # link_args += '/DYNAMICBASE "dsound.lib" "winmm.lib" "wininet.lib" "comctl32.lib" "Shlwapi.lib" "kernel32.lib" "user32.lib" "gdi32.lib" "winspool.lib" "comdlg32.lib" "advapi32.lib" "shell32.lib" "ole32.lib" "oleaut32.lib" "uuid.lib" "odbc32.lib" "odbccp32.lib"'
+  # link_args += '/TLBID:1'
+
+  # so turns out that imgui subproject builds a library
+  # and it has to be linked against opengl32.lib
+  # it dones't just work if I add this link arg in my vst/exe target
+  # add_global_link_arguments('/DYNAMICBASE "opengl32.lib"', language: 'cpp')
+elif system == 'linux'
+  link_args += [
+    '-lpthread',
+    '-lxcb',
+    '-ldl',
+    '-lGL',
+    '-lfontconfig',
+    # '-lpulse',
+    # '-lpulse-simple',
+  ]
+  # extra_args += ['-fpermissive']
+endif
+
+
+# TODO make 2 static libraries and then
+# declare_dependency that link to them
+
 iplug2_APP_dep = declare_dependency(
   include_directories: includes,
-  sources: sources + sources_APP
+  sources: sources + sources_APP,
+  compile_args: args_common + args_APP,
+  link_args: link_args + [
+    '-lpulse',
+    '-lpulse-simple',
+    ]
 )
 
 # todo make this optional.. no need to download VST3 sdk if we only want APP..
 iplug2_VST3_dep = declare_dependency(
   include_directories: includes,
-  sources: sources + sources_VST3
+  sources: sources + sources_VST3,
+  compile_args: args_common + args_VST3,
+  link_args: link_args,
 )
