@@ -101,3 +101,11 @@ sources = sources_common
      The files that have this trick are
      - [[file:IPlug/meson.build]]
      - [[file:Dependencies/IPlug/meson.build]]
+* Linux
+  - VST3 for linux without =IGRAPHICS= (it's up to you to use anything)
+  - the changes for =LV2= are also here, but not tested.
+
+  Cherry-picked things from the =linux= branch. Kept changes to a minimum to have a sane git diff: \\
+  - [[https://github.com/actonDev/iPlug2/compare/master..feature/meson-and-linux-nogui][master vs feature/meson-and-linux-nogui]]
+  - [[https://github.com/actondev/iPlug2/compare/master..iPlug2:master][master vs upstream (iPlug2) master]]
+

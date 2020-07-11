@@ -94,10 +94,8 @@ public:
       else // Carbon
         return Steinberg::kResultFalse;
 #elif defined OS_LINUX
-      if (strcmp (type, Steinberg::kPlatformTypeX11EmbedWindowID) == 0) {
-	   printf("here, linux %p\n", pParent);
+      if (strcmp (type, Steinberg::kPlatformTypeX11EmbedWindowID) == 0)
         mOwner.OpenWindow(pParent);
-      }
       else
         return Steinberg::kResultFalse;
 #endif
