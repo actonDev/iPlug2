@@ -9,12 +9,6 @@ if system == 'windows'
     'IGraphicsWin.cpp',
 
   )
-elif system == 'linux'
-  message('adding linux specific cpp files')
-  sources += files(
-    'IGraphicsLinux.cpp',
-  )
 else
-  # can i just.. error/exception or something ?
-  assert(false, 'Cannot handle system ' + system)
+  error('IGraphics: Cannot handle system ' + system)
 endif

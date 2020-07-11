@@ -10,5 +10,4 @@ sources += files(
 
 subdir('./Controls')
 subdir('./Drawing')
-subdir('./Extras')
 subdir('./Platforms')

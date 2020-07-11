@@ -1,4 +1,4 @@
-includes += include_directories('.')
+includes += include_directories('.', 'Extras')
 
 sources += files(
 'IPlugAPIBase.cpp',
@@ -20,5 +20,3 @@ subdir('VST3')
 sources_VST3 = sources
 
 sources = sources_common
-
-subdir('Extras')
