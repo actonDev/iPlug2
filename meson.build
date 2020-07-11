@@ -1,16 +1,13 @@
 project('iPlug2', 'cpp', 'c')
 system = build_machine.system()
 
-message('iPlug2 linux...')
-
 sources = []
 includes = []
 
 sources_APP = []
 sources_VST3 = []
 
-message('in iplug2 project..')
-message('igraphics option is ' + ', '.join(get_option('IGRAPHICS')))
+message('iplug2: igraphics option is ' + ', '.join(get_option('IGRAPHICS')))
 igraphics = get_option('IGRAPHICS')
 
 # https://mesonbuild.com/Reference-manual.html#array-object
@@ -43,8 +40,6 @@ if system == 'windows'
     '-D__WINDOWS_DS__',
   ]
 elif system == 'linux'
-  # can i just.. error/exception or something ?
-  # assert(false, 'Cannot handle system ' + system)
     args_common += [
     '-Dlinux', # seen in IPlugPlatform.h
     '-DOS_LINUX',
@@ -56,7 +51,6 @@ elif system == 'linux'
 endif
 
 
-# target = get_option('IPLUG_TARGET')
 args_APP = [
   '-DAPP_API',
 ]
@@ -89,30 +83,23 @@ subdir('WDL')
 system = host_machine.system()
 link_args = []
 if system == 'windows'
-  # just copied that from the provided examples
-  # link_args += '/DYNAMICBASE "dsound.lib" "winmm.lib" "wininet.lib" "comctl32.lib" "Shlwapi.lib" "kernel32.lib" "user32.lib" "gdi32.lib" "winspool.lib" "comdlg32.lib" "advapi32.lib" "shell32.lib" "ole32.lib" "oleaut32.lib" "uuid.lib" "odbc32.lib" "odbccp32.lib"'
-  # link_args += '/TLBID:1'
-
-  # so turns out that imgui subproject builds a library
-  # and it has to be linked against opengl32.lib
-  # it dones't just work if I add this link arg in my vst/exe target
-  # add_global_link_arguments('/DYNAMICBASE "opengl32.lib"', language: 'cpp')
+  # link_args += ['opengl32.lib']
 elif system == 'linux'
   link_args += [
     '-lpthread',
-    '-lxcb',
+    # '-lxcb',
     '-ldl',
-    '-lGL',
+    # '-lGL',
     '-lfontconfig',
-    # '-lpulse',
-    # '-lpulse-simple',
   ]
-  # extra_args += ['-fpermissive']
+  # args_common += ['-fpermissive']
 endif
 
 
 # TODO make 2 static libraries and then
 # declare_dependency that link to them
+# or.. not. Right now we just 'inject' the sources
+# in the project that uses iplug2
 
 iplug2_APP_dep = declare_dependency(
   include_directories: includes,
