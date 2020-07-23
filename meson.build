@@ -83,7 +83,8 @@ subdir('WDL')
 system = host_machine.system()
 link_args = []
 if system == 'windows'
-  # link_args += ['opengl32.lib']
+  # hm.. dsound I guess is only for the standalone. maybe separate in the future
+  link_args += ['dsound.lib', 'winmm.lib', 'Shlwapi.lib', 'comctl32.lib']
 elif system == 'linux'
   link_args += [
     '-lpthread',
@@ -91,8 +92,9 @@ elif system == 'linux'
     '-ldl',
     # '-lGL',
     '-lfontconfig',
+    '-lpulse',
+    '-lpulse-simple',
   ]
-  # args_common += ['-fpermissive']
 endif
 
 
@@ -100,15 +102,14 @@ endif
 # declare_dependency that link to them
 # or.. not. Right now we just 'inject' the sources
 # in the project that uses iplug2
+#
+# Don't know how could I handle the config.h, include_in_src files etc
 
 iplug2_APP_dep = declare_dependency(
   include_directories: includes,
   sources: sources + sources_APP,
   compile_args: args_common + args_APP,
-  link_args: link_args + [
-    '-lpulse',
-    '-lpulse-simple',
-    ]
+  link_args: link_args,
 )
 
 # todo make this optional.. no need to download VST3 sdk if we only want APP..

@@ -15,7 +15,8 @@ if [ ! -f "vst-sdk.zip" ]; then
     wget -O vst-sdk.zip "$SDK_URL"
 fi
 
-echo "$SDK_SHA  vst-sdk.zip" | shasum -a 256 -c
+# sha256sum.exe in msys2
+echo "$SDK_SHA  vst-sdk.zip" | sha256sum -c
 if [ $? != 0 ]; then
     echo 'vst-sdk.zip checksum is not valid'
     exit 1

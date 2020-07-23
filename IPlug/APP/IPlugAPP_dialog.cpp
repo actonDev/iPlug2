@@ -611,8 +611,6 @@ WDL_DLGRET IPlugAPPHost::MainDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPA
       #ifdef OS_WIN 
       #ifndef NO_IGRAPHICS
         scale = GetScaleForHWND(gHWND);
-      #else
-        #error GetScaleForHWND() not implemented
       #endif
       #endif
 
@@ -771,8 +769,6 @@ WDL_DLGRET IPlugAPPHost::MainDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPA
         #ifdef OS_WIN 
         #ifndef NO_IGRAPHICS
         scale = GetScaleForHWND(hwndDlg);
-        #else
-          #error GetScaleForHWND() not implemented
         #endif
         #endif
         pPlug->OnParentWindowResize(r.right / scale, r.bottom / scale);
