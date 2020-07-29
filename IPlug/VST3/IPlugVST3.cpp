@@ -238,4 +238,3 @@ void IPlugVST3::SetLatency(int latency)
   FUnknownPtr<IComponentHandler>handler(componentHandler);
   handler->restartComponent(kLatencyChanged);
 }
-
