@@ -70,10 +70,11 @@ extern "C"
       gParent = pRec->hwnd_main;
       
       HMENU hMenu = GetSubMenu(GetMenu(gParent),
-#ifdef OS_WIN
-                               8
-#else // OS X has one extra menu
+// OS X has one extra menu
+#ifdef OS_MAC
                                9
+#else
+                               8
 #endif
                                );
       

@@ -19,18 +19,21 @@ else
   subdir('IGraphics')
 endif
 
-args_common = []
+args_base = [] # even for reaper-extension
+args_common = [] # app, vst3
+
 foreach igraphic : igraphics
   argument = '-D'+igraphic
   message('adding argument ' + argument)
-  args_common += argument
+  args_base += argument
 endforeach
+
+args_base += '-DNOMINMAX'
 
 # default ones, hardcoded for now
 args_common += [
   '-DIPLUG_DSP=1',
   '-DIPLUG_EDITOR=1',
-  '-DNOMINMAX',
 ]
 
 if system == 'windows'
@@ -108,7 +111,7 @@ endif
 iplug2_APP_dep = declare_dependency(
   include_directories: includes,
   sources: sources + sources_APP,
-  compile_args: args_common + args_APP,
+  compile_args: args_base + args_common + args_APP,
   link_args: link_args,
 )
 
@@ -116,6 +119,13 @@ iplug2_APP_dep = declare_dependency(
 iplug2_VST3_dep = declare_dependency(
   include_directories: includes,
   sources: sources + sources_VST3,
-  compile_args: args_common + args_VST3,
+  compile_args: args_base + args_common + args_VST3,
+  link_args: link_args,
+)
+
+iplug2_RPR_dep = declare_dependency(
+  include_directories: includes,
+  sources: sources_RPR + sources_SWELL,
+  compile_args: args_base,
   link_args: link_args,
 )

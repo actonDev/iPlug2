@@ -10,3 +10,5 @@ subdir('VST3_SDK')
 sources_VST3 = sources
 
 sources = sources_common
+
+includes += include_directories('Reaper')

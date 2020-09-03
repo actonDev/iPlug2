@@ -1,6 +1,6 @@
 includes += include_directories('.')
 
-sources += files(
+sources_SWELL = files(
 'swell-appstub-generic.cpp',
  'swell-dlg-generic.cpp',
  'swell-gdi-generic.cpp',
@@ -18,3 +18,5 @@ sources += files(
  # 'test.cpp',
 
   )
+
+sources += sources_SWELL

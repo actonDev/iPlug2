@@ -2,7 +2,9 @@ ReaperExtBase::ReaperExtBase(reaper_plugin_info_t* pRec)
 : EDITOR_DELEGATE_CLASS(0) // zero params
 , mRec(pRec)
 {
+     #ifndef OS_LINUX
   mTimer = std::unique_ptr<Timer>(Timer::Create(std::bind(&ReaperExtBase::OnTimer, this, std::placeholders::_1), IDLE_TIMER_RATE));
+  #endif
 }
 
 ReaperExtBase::~ReaperExtBase()
