@@ -123,9 +123,12 @@ iplug2_VST3_dep = declare_dependency(
   link_args: link_args,
 )
 
+if system == 'linux'
+  sources_RPR += sources_SWELL
+endif
 iplug2_RPR_dep = declare_dependency(
   include_directories: includes,
-  sources: sources_RPR + sources_SWELL,
+  sources: sources_RPR,
   compile_args: args_base,
   link_args: link_args,
 )
