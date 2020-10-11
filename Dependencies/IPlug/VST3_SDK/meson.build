@@ -1,5 +1,5 @@
 # note, no subdirs here, since th subfolders are coming from uzniping the sdk
-system = build_machine.system()
+system = host_machine.system()
 
 message('in VST3_SDK dir')
 res = run_command('bash', 'config.sh')

@@ -9,7 +9,7 @@ sources += files(
   # 'IPlugVST3_Processor.cpp',
 )
 
-system = build_machine.system()
+system = host_machine.system()
 if system == 'linux'
   sources += files(
     # from linux branch

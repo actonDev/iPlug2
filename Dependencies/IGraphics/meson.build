@@ -1,5 +1,5 @@
 message('iplug2/Dependencies/IGraphics dir')
-system = build_machine.system()
+system = host_machine.system()
 
 includes += include_directories('./STB')
 

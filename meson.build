@@ -1,5 +1,5 @@
 project('iPlug2', 'cpp', 'c')
-system = build_machine.system()
+system = host_machine.system()
 
 sources = []
 includes = []
@@ -85,9 +85,17 @@ subdir('WDL')
 
 system = host_machine.system()
 link_args = []
+compiler_id = meson.get_compiler('cpp').get_id()
 if system == 'windows'
   # hm.. dsound I guess is only for the standalone. maybe separate in the future
-  link_args += ['dsound.lib', 'winmm.lib', 'Shlwapi.lib', 'comctl32.lib']
+
+  if compiler_id == 'gcc'
+    # mingw
+    link_args += ['-ldsound', '-lwinmm', '-lshlwapi', '-lcomctl32']
+  else
+    # msvc
+    link_args += ['dsound.lib', 'winmm.lib', 'Shlwapi.lib', 'comctl32.lib']
+  endif
 elif system == 'linux'
   link_args += [
     '-lpthread',

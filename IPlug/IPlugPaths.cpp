@@ -21,8 +21,8 @@
 #include <emscripten/val.h>
 #elif defined OS_WIN
 #include <windows.h>
-#include <Shlobj.h>
-#include <Shlwapi.h>
+#include <shlobj.h>
+#include <shlwapi.h>
 #elif defined OS_LINUX
 #include <dlfcn.h>
 #include <limits.h>

@@ -1,6 +1,6 @@
 includes += include_directories('.')
 
-system = build_machine.system()
+system = host_machine.system()
 
 if system == 'windows'
   sources += files(
